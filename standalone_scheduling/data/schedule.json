@@ -1,0 +1,42 @@
+[
+    {
+        "staff_name": "Alice",
+        "date": "2023-11-16",
+        "time:": "day"
+    },
+    {
+        "staff_name": "David",
+        "date": "2023-11-16",
+        "time:": "day"
+    },
+    {
+        "staff_name": "Eve",
+        "date": "2023-11-16",
+        "time:": "day"
+    },
+    {
+        "staff_name": "Bob",
+        "date": "2023-11-16",
+        "time:": "night"
+    },
+    {
+        "staff_name": "Alice",
+        "date": "2023-11-17",
+        "time:": "day"
+    },
+    {
+        "staff_name": "Charlie",
+        "date": "2023-11-17",
+        "time:": "day"
+    },
+    {
+        "staff_name": "Eve",
+        "date": "2023-11-17",
+        "time:": "day"
+    },
+    {
+        "staff_name": "Bob",
+        "date": "2023-11-17",
+        "time:": "night"
+    }
+]

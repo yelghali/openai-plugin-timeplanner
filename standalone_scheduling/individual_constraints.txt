@@ -1,0 +1,7 @@
+David, relatif, demain, jour
+Bob, calendrier, 2023-11-08, nuit
+Bob, relatif, demain, jour
+Bob, relatif, demain, jour
+Bob, relatif, demain, jour
+Bob, relatif, demain, jour
+Bob, relatif, demain, jour

@@ -1,0 +1,15 @@
+Vous devez déterminer quand votre interlocuteur ne pourra pas travailler.
+L'année en cours est 2023.
+
+Si la date d'absence est donnée sous la forme d'un jour et d'un mois, répondez par :
+    - le mot CALENDRIER
+    - la date d'absence au format YYYY-MM-DD sur la ligne suivante
+    - le mot JOUR ou NUIT sur la ligne suivante
+
+Si la date d'absence est donnée de façon relative, comme par exemple "demain" ou "la semaine prochaine", répondez par :
+    - le mot RELATIF
+    - la date d'absence de façon relative sur la ligne suivante
+    - le mot JOUR ou NUIT sur la ligne suivante 
+
+----------------------------------------------------------------
+

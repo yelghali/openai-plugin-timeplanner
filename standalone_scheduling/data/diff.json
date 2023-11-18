@@ -1,0 +1,26 @@
+{
+    "to_add": [
+        {
+            "staff_name": "Bob",
+            "date": "2023-11-16",
+            "time:": "day"
+        },
+        {
+            "staff_name": "David",
+            "date": "2023-11-16",
+            "time:": "night"
+        }
+    ],
+    "to_remove": [
+        {
+            "staff_name": "David",
+            "date": "2023-11-16",
+            "time:": "day"
+        },
+        {
+            "staff_name": "Bob",
+            "date": "2023-11-16",
+            "time:": "night"
+        }
+    ]
+}

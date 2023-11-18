@@ -1,0 +1,32 @@
+[
+    {
+        "staff_name": "Bob",
+        "calendar_or_relative": "calendrier",
+        "date": "2023-11-17",
+        "time": "day"
+    },
+    {
+        "staff_name": "Charlie",
+        "calendar_or_relative": "calendrier",
+        "date": "2023-11-18",
+        "time": "day"
+    },
+    {
+        "staff_name": "David",
+        "calendar_or_relative": "calendar",
+        "date": "2023-11-17",
+        "time": "day"
+    },
+    {
+        "staff_name": "David",
+        "calendar_or_relative": "calendar",
+        "date": "2023-11-17",
+        "time": "night"
+    },
+    {
+        "staff_name": "Eve",
+        "calendar_or_relative": "calendrier",
+        "date": "2023-11-18",
+        "time": "night"
+    }
+]
