@@ -233,6 +233,7 @@ def write_schedule_diffs(query: str = None):
 
 # to_add, to_remove = write_schedule_diffs()
 # print('to_add:', to_add)
+# print('to_remove:', to_remove)
 
 # @app.post("/addConstraint", summary="Add a constraint", operation_id="addConstraint")
 def update_constraints(body: Constraint):
@@ -254,9 +255,15 @@ def validate_change(body: ScheduleChange):
     if body.to_add:
         change = {'id': body.id, 'staff_name': body.staff_name, 'date': body.date, 'time': body.time, 'validated': True}
         cosmos.write(change, 'schedule_diff_to_add')
+    else:
+        change = {'id': body.id, 'staff_name': body.staff_name, 'date': body.date, 'time': body.time, 'validated': True}
+        cosmos.write(change, 'schedule_diff_to_remove')
 
-# body = ScheduleChange(id='1', staff_name='Alice', date='2021-05-01', time='day', to_add=True)
-# validate_change(body)
+body = ScheduleChange(id='18', staff_name='Charlie', date='2023-11-20', time='night', to_add=True)
+validate_change(body)
+
+body = ScheduleChange(id='17', staff_name='Bob', date='2023-11-20', time='night', to_add=False)
+validate_change(body)
 
 # @app.get("/getSchedule", summary="Get the schedule", operation_id="getSchedule")
 def get_schedule(query: str = None):
@@ -265,32 +272,39 @@ def get_schedule(query: str = None):
     If all diffs are validated, update the schedule first.
     """
     to_add = cosmos.read('schedule_diff_to_add')
+    # print('to_add:', to_add)
     to_remove = cosmos.read('schedule_diff_to_remove')
+    # print('to_remove:', to_remove)
     old_schedule = cosmos.read('schedule')
+    # print('old_schedule:', old_schedule)
 
     if len(to_add) == 0 and len(to_remove) == 0:
         return old_schedule
     
     else:
         model = schedule_as_model(old_schedule, n_staff, n_shifts, staff_dict)
+        # print('model:', model)
         for change_to_add in to_add:
-            if not change_to_add.validated:
+            if not change_to_add["validated"]:
                 raise Exception('not all changes are validated')
             else:
-                binary_variable_index = compute_binary_variable_index(change_to_add.staff_name, change_to_add.date, change_to_add.time)
+                binary_variable_index = compute_binary_variable_index(change_to_add["staff_name"], change_to_add["date"], change_to_add["time"], staff_dict, n_staff)
                 model[binary_variable_index-1] = binary_variable_index
+        # print('model:', model)
         for change_to_remove in to_remove:
-            if not change_to_remove.validated:
+            if not change_to_remove["validated"]:
                 raise Exception('not all changes are validated')
             else:
-                binary_variable_index = compute_binary_variable_index(change_to_remove.staff_name, change_to_remove.date, change_to_remove.time)
+                binary_variable_index = compute_binary_variable_index(change_to_remove["staff_name"], change_to_remove["date"], change_to_remove["time"], staff_dict, n_staff)
                 model[binary_variable_index-1] = -binary_variable_index
+        # print('model:', model)
 
         new_schedule = model_as_schedule(model, n_staff, staff_inverted_dict)
         return new_schedule
 
 # new_schedule = get_schedule()
-# print(new_schedule)
+# for item in new_schedule:
+#     print(item)
 
 
 

@@ -1,6 +1,6 @@
 #module imports
 import datetime
-from datetime import date, datetime, timedelta
+from datetime import date as datetime_date, datetime, timedelta
 import openpyxl
 from openpyxl.styles import PatternFill
 from openpyxl.styles import colors
@@ -74,7 +74,7 @@ def compute_distance(model_A, model_B):
 
 def date_and_time_as_string(shift_index):
     days = shift_index // 2
-    today = date.today()
+    today = datetime_date.today()
     calendar_date = str(today + timedelta(days=days))
     if shift_index%2==0:
         time = 'day'
@@ -98,7 +98,7 @@ def schedule_as_model(schedule, n_staff, n_shifts, staff_dict):
     # print('model:', model)
     for item in schedule:
         staff_index = staff_dict[item["staff_name"]]
-        shift_index = days_between(item["date"], str(date.today())) * 2
+        shift_index = days_between(item["date"], str(datetime_date.today())) * 2
         if item["time"] == "night":
             shift_index += 1
         binary_variable_index = binary_variable_encoding(shift_index, staff_index, n_staff)
@@ -107,9 +107,9 @@ def schedule_as_model(schedule, n_staff, n_shifts, staff_dict):
 
     return model
 
-def compute_binary_variable_index(staff_name, date, time):
+def compute_binary_variable_index(staff_name, date, time, staff_dict, n_staff):
     staff_index = staff_dict[staff_name]
-    shift_index = days_between(date, str(date.today())) * 2
+    shift_index = days_between(date, str(datetime_date.today())) * 2
     if time == "night":
         shift_index += 1
     binary_variable_index = binary_variable_encoding(shift_index, staff_index, n_staff)
