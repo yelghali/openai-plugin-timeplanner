@@ -26,6 +26,10 @@ def read(container_name):
     
     return items
 
+# constraints = read('negotiable_constraints')
+# for constraint in constraints:
+    # print(constraint["staff_name"])
+
 def write(json_object, container_name):
 
     database_name = 'healthplanner'

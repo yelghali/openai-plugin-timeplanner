@@ -83,12 +83,13 @@ def sliding_window_constraint(staff_index, sliding_window_size, bound):
         cnfplus.append([literals, bound], is_atmost=True) # cnfplus.atmost(literals, bound, top_id) # cnfplus.append(CardEnc.equals(lits=literals, bound=bound))
     return cnfplus
 
-def retrieve_negotiable_constraints(filename):
+def retrieve_negotiable_constraints(container_name):
 
     negotiable_constraints = []
 
-    with open(parent_path / filename, 'r') as f:
-        constraints_as_list_of_dict = json.load(f)
+    # with open(parent_path / filename, 'r') as f:
+    #     constraints_as_list_of_dict = json.load(f)
+    constraints_as_list_of_dict = cosmos.read(container_name)
 
     for constraint_as_dict in constraints_as_list_of_dict:
         staff_index = staff_dict[constraint_as_dict['staff_name']]
@@ -135,6 +136,7 @@ def get_permanent_constraints():
     return formula
 
 def find_closest_model(solver, formula, old_model):
+    # print('old model:', old_model)
     smallest_distance = n_shifts * n_staff # initialize with a large value
     new_model = None
     nb_models = 0
@@ -173,10 +175,10 @@ def write_model_to_cosmos(model):
 
 def compute_new_model(old_model):
 
-    formula_additional_negotiable_constraints = retrieve_negotiable_constraints('data/additional_negotiable_constraints.json')
-    print('additional negotiable constraints:', formula_additional_negotiable_constraints)
-    formula_negotiable_constraints.extend(formula_additional_negotiable_constraints)
-    formula_to_solve = formula_permanent_constraints.copy()
+    formula_negotiable_constraints = retrieve_negotiable_constraints('negotiable_constraints')
+    print('negotiable constraints:', formula_negotiable_constraints)
+    # formula_negotiable_constraints.extend(formula_additional_negotiable_constraints)
+    formula_to_solve = get_permanent_constraints()
     formula_to_solve.extend(formula_negotiable_constraints)
     new_model, distance = find_closest_model('minicard', formula_to_solve, old_model)
     return new_model    
@@ -222,13 +224,18 @@ def write_schedule_diffs(query: str = None):
     """
 
     old_schedule = cosmos.read('schedule')
+    # print('old schedule:', old_schedule)
     old_model = schedule_as_model(old_schedule, n_staff, n_shifts, staff_dict)
+    # print('old model:', old_model)
     to_add, to_remove = write_model_diff_to_cosmos(old_model)
 
     return to_add, to_remove
 
+# to_add, to_remove = write_schedule_diffs()
+# print('to_add:', to_add)
+
 # @app.post("/addConstraint", summary="Add a constraint", operation_id="addConstraint")
-def update_constaints(body: Constraint):
+def update_constraints(body: Constraint):
     """
     Add a constraint to the Cosmos DB container 'negotiable_constraints'.
     """
@@ -236,8 +243,8 @@ def update_constaints(body: Constraint):
     cosmos.write(constraint, 'negotiable_constraints')
     # TODO: check if constraint is already in the container and if so, do not add it again.
 
-# body = Constraint(staff_name='Alice', calendar_or_relative='calendar', date='2021-05-01', time='day')
-# update_constaints(body)
+# body = Constraint(staff_name='Bob', calendar_or_relative='calendar', date='2023-11-20', time='night')
+# update_constraints(body)
 
 # @app.post("/validateChange", summary="Validate a change", operation_id="validateChange")
 def validate_change(body: ScheduleChange):

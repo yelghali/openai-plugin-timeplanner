@@ -102,8 +102,10 @@ def schedule_as_model(schedule, n_staff, n_shifts, staff_dict):
         if item["time"] == "night":
             shift_index += 1
         binary_variable_index = binary_variable_encoding(shift_index, staff_index, n_staff)
+        # print('binary_variable_index:', binary_variable_index)
         model[binary_variable_index-1] = binary_variable_index
-    print('model:', model)
+
+    return model
 
 def compute_binary_variable_index(staff_name, date, time):
     staff_index = staff_dict[staff_name]
@@ -113,12 +115,12 @@ def compute_binary_variable_index(staff_name, date, time):
     binary_variable_index = binary_variable_encoding(shift_index, staff_index, n_staff)
     return binary_variable_index
 
-if __name__=='__main__':
+# if __name__=='__main__':
 
-    n_staff, n_shifts = 5, 4
-    staff_dict = {'Alice' : 1, 'Bob' : 2, 'Charlie' : 3, 'David' : 4, 'Eve' : 5}
+    # n_staff, n_shifts = 5, 4
+    # staff_dict = {'Alice' : 1, 'Bob' : 2, 'Charlie' : 3, 'David' : 4, 'Eve' : 5}
 
-    schedule_as_model(cosmos.read('schedule') , n_staff, n_shifts)
+    # schedule_as_model(cosmos.read('schedule') , n_staff, n_shifts)
 
 
 
