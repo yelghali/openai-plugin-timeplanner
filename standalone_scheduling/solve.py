@@ -259,11 +259,11 @@ def validate_change(body: ScheduleChange):
         change = {'id': body.id, 'staff_name': body.staff_name, 'date': body.date, 'time': body.time, 'validated': True}
         cosmos.write(change, 'schedule_diff_to_remove')
 
-body = ScheduleChange(id='18', staff_name='Charlie', date='2023-11-20', time='night', to_add=True)
-validate_change(body)
+# body = ScheduleChange(id='18', staff_name='Charlie', date='2023-11-20', time='night', to_add=True)
+# validate_change(body)
 
-body = ScheduleChange(id='17', staff_name='Bob', date='2023-11-20', time='night', to_add=False)
-validate_change(body)
+# body = ScheduleChange(id='17', staff_name='Bob', date='2023-11-20', time='night', to_add=False)
+# validate_change(body)
 
 # @app.get("/getSchedule", summary="Get the schedule", operation_id="getSchedule")
 def get_schedule(query: str = None):
